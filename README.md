@@ -216,3 +216,81 @@ PORT=8000
 ```
 
 El archivo `.env` real no se almacena en Git.
+
+
+
+## Gestión de reservas
+
+SmartCampus permite consultar, crear y eliminar reservas de aulas.
+
+### Endpoints
+
+| Método | Endpoint | Descripción |
+|---|---|---|
+| GET | `/bookings` | Consultar todas las reservas |
+| POST | `/bookings` | Crear una reserva |
+| DELETE | `/bookings/{booking_id}` | Eliminar una reserva |
+
+### Reglas de negocio
+
+- El aula indicada debe existir.
+- La hora de inicio debe ser anterior a la hora de fin.
+- No se permiten reservas solapadas para la misma aula y fecha.
+- No se puede eliminar una reserva inexistente.
+- Se permiten reservas consecutivas sin solapamiento.
+
+### Frontend
+
+La interfaz web incluye una sección para consultar las reservas.
+
+El frontend realiza la petición a `/api/bookings` y Nginx la reenvía al backend correspondiente.
+
+### Validación
+
+La funcionalidad de reservas se ha comprobado en:
+
+- Ejecución local mediante pytest.
+- Docker Compose.
+- PostgreSQL en Docker.
+- Kubernetes mediante `backend-service` y `database-service`.
+- Frontend expuesto mediante `frontend-service`.
+
+### Evidencias
+
+Las siguientes capturas documentan las pruebas realizadas en ambos entornos.
+
+#### 1. Tests automatizados (Pytest)
+
+Se ejecutan los tests de integración y unitarios de la funcionalidad de reservas.
+
+![Resultado de Pytest](docs/images/bookings-pytest.png)
+
+#### 2. Docker Compose
+
+**Swagger: endpoints y creación de reservas**
+
+![Swagger Docker](docs/images/bookings-swagger-docker-1.png)
+![Swagger Docker](docs/images/bookings-swagger-docker-2.png)
+
+**Frontend: aulas y reservas cargadas**
+
+![Frontend Docker](docs/images/bookings-frontend-docker.png)
+
+**PostgreSQL: reservas almacenadas**
+
+![PostgreSQL Docker](docs/images/bookings-postgres-docker.png)
+
+#### 3. Kubernetes
+
+**Pods: backend, frontend y PostgreSQL en ejecución**
+
+![Pods Kubernetes](docs/images/bookings-k8s-pods.png)
+
+**Swagger: API de reservas en Kubernetes**
+
+![Swagger Kubernetes](docs/images/bookings-swagger-k8s.png)
+
+
+**PostgreSQL: reservas almacenadas en Kubernetes**
+
+![PostgreSQL Kubernetes](docs/images/bookings-postgres-k8s.png)

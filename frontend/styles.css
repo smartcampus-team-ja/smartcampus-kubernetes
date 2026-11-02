@@ -19,6 +19,8 @@ header {
 main {
     width: min(1000px, 90%);
     margin: 2rem auto;
+    display: grid;
+    gap: 2rem;
 }
 
 section {
@@ -32,18 +34,19 @@ button {
     cursor: pointer;
 }
 
-#rooms {
+#rooms,
+#bookings {
     display: grid;
     gap: 1rem;
     margin-top: 1.5rem;
 }
 
-.room {
+.card {
     border: 1px solid #ddd;
     border-radius: 6px;
     padding: 1rem;
 }
 
-.room h3 {
+.card h3 {
     margin-top: 0;
 }
